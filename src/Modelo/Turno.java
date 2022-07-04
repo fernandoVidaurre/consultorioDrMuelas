@@ -9,7 +9,7 @@ public class Turno {
 	private Date fecha;
 	private Time hora;
 	private boolean estado;
-	private int idPersona;
+	private Integer idPersona;
 	
 	
 	public Turno(int idTurno, Date fecha, Time hora, boolean estado, int idPersona) {
