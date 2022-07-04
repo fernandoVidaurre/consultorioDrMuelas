@@ -13,7 +13,7 @@ public class Persona {
 	private String telefono;
 	private String email;
 	private String domicilio;
-	private int idCuenta;
+	private Integer idCuenta;
 	
 	public Persona(){}
 	public Persona(int idPersona, String dni, String nombre, String apellido, Date fechaNac, Character sexo,
