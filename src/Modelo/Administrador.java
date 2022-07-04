@@ -15,7 +15,7 @@ public class Administrador extends Persona {  // Marca error por que falta crear
 	public Administrador(String cargo,int idPersona,String dni,String apellido,String nombre,Date fechaNac,char sexo,String telefono,
 			String email,String domicilio,int idCuenta, int idFichaMedica) {
 		
-		super( idPersona,dni,apellido,nombre,fechaNac,sexo,telefono,email,domicilio,idCuenta,idFichaMedica);
+		super( idPersona,dni,apellido,nombre,fechaNac,sexo,telefono,email,domicilio,idCuenta);
 		this.cargo = cargo;
 	}
 
