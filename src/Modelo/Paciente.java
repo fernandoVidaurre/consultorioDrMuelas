@@ -1,7 +1,7 @@
 package Modelo;
 import java.sql.Date;
 
-public class Paciente extends Persona {  // Marca error por que falta crear la clase persona asignada a luis
+public class Paciente extends Persona {  // Marca error por que falta crear la clase persona asignada a luis será presentada hasta el día 05-07
 
 	// Atributos
 	private int fichaMedica;
