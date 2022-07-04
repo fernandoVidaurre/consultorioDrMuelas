@@ -7,6 +7,20 @@ public class Cuenta {
 	private String password;
 	private Character tipoUsuario;
 	
+	public Cuenta(String usuario, String password, Character tipoUsuario) {
+		super();
+		this.usuario = usuario;
+		this.password = password;
+		this.tipoUsuario = tipoUsuario;
+	}
+	
+	public Cuenta(int idCuenta, String usuario, String password, Character tipoUsuario) {
+		super();
+		this.idCuenta = idCuenta;
+		this.usuario = usuario;
+		this.password = password;
+		this.tipoUsuario = tipoUsuario;
+	}
 	public int getIdCuenta() {
 		return idCuenta;
 	}

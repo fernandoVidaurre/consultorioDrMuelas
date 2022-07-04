@@ -11,6 +11,15 @@ public class Turno {
 	private boolean estado;
 	private int idPersona;
 	
+	
+	public Turno(int idTurno, Date fecha, Time hora, boolean estado, int idPersona) {
+		super();
+		this.idTurno = idTurno;
+		this.fecha = fecha;
+		this.hora = hora;
+		this.estado = estado;
+		this.idPersona = idPersona;
+	}
 	public int getIdTurno() {
 		return idTurno;
 	}
