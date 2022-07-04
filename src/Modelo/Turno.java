@@ -8,11 +8,12 @@ public class Turno {
 	private int idTurno;
 	private Date fecha;
 	private Time hora;
+	private Character tipoTurno;
 	private boolean estado;
 	private Integer idPersona;
 	
 	
-	public Turno(int idTurno, Date fecha, Time hora, boolean estado, int idPersona) {
+	public Turno(int idTurno, Date fecha, Time hora, Character tipoTurno, boolean estado, int idPersona) {
 		super();
 		this.idTurno = idTurno;
 		this.fecha = fecha;
