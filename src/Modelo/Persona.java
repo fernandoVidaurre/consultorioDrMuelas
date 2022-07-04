@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class Persona {
 	
-	private int idPersona;
+	private Integer idPersona;
 	private String dni;
 	private String nombre;
 	private String apellido;
