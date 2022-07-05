@@ -14,7 +14,7 @@ public class TestMainFranco {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
+		/*
 		AdministradorDao adm = new AdministradorDao();
 		CuentaDao cuentaDao = new CuentaDao();
 		
@@ -28,6 +28,10 @@ public class TestMainFranco {
 		} else {
 			System.out.println("Esta cuenta ya existe");
 		}
+		*
+		*/
+		
+		iniciarSesion();
 		
 	}
 	
@@ -55,4 +59,26 @@ public class TestMainFranco {
 		return cuenta;
 	}
 
+	public static void iniciarSesion() {
+		String usuario = "admin1";
+		String password = "123456";
+		
+		Cuenta cuenta = new Cuenta(usuario, password);
+		CuentaDao cuentaDao = new CuentaDao();
+		
+		int id = cuentaDao.logIn(cuenta);
+		
+		switch (id) {
+		case -1:
+			System.out.println("Menu de Admin");
+			break;
+		case -2:
+			System.out.println("No existe cuenta con ese usuario");
+			break;
+		default:
+			System.out.println("Menu de paciente");
+			break;
+		}
+		
+	}
 }

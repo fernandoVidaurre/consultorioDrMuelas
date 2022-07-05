@@ -11,6 +11,7 @@ public class CuentaDao {
 	
 	// REGISTRO DE PACIENTE
 	private boolean verificarCuenta(String username) {
+		// devuelve false si no se encuentra
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -157,4 +158,55 @@ public class CuentaDao {
 	}
 	
 	// LOGIN
+	
+	// devuelve un valor <0 si es paciente -1 si es administrador y -2 si no esta registrado
+	
+	public int logIn(Cuenta cuenta) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		ResultSet rsp = null;
+		int idPaciente = -2;
+		int idCuenta = -1;
+		
+		if (verificarCuenta(cuenta.getUsuario())) {
+			try {
+				conn = Conexion.getConnection();
+				String sql = "SELECT * FROM cuenta WHERE user=?";
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1, cuenta.getUsuario());
+				rs = stmt.executeQuery();
+				
+				if (rs.next()) {
+					String rol = rs.getString("tipoUsuario");
+					idCuenta = rs.getInt("id_cuenta");
+					switch(rol) {
+					case "P":
+						sql = "SELECT * FROM persona WHERE cuenta_id_cuenta=?";
+						stmt = conn.prepareStatement(sql);
+						stmt.setInt(1, idCuenta);
+						rsp = stmt.executeQuery();
+						
+						if (rsp.next()) {
+							idPaciente = rsp.getInt("idPersona");
+						}										
+						break;
+					case "A":
+						idPaciente = -1;
+						break;
+					}
+
+				}
+				
+				Conexion.close(rs);
+				Conexion.close(rsp);
+				Conexion.close(stmt);
+				Conexion.close(conn);
+			} catch (ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return idPaciente;
+	}
 }
