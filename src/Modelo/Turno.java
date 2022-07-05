@@ -13,6 +13,13 @@ public class Turno {
 	private Integer idPersona;
 	
 	
+	public Turno(int idTurno, Date fecha, Time hora) {
+		super();
+		this.idTurno = idTurno;
+		this.fecha = fecha;
+		this.hora = hora;
+	}
+
 	public Turno(int idTurno, Date fecha, Time hora, Character tipoTurno, boolean estado, int idPersona) {
 		super();
 		this.idTurno = idTurno;
@@ -21,6 +28,7 @@ public class Turno {
 		this.estado = estado;
 		this.idPersona = idPersona;
 	}
+	
 	public int getIdTurno() {
 		return idTurno;
 	}
