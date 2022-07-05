@@ -7,6 +7,13 @@ public class Cuenta {
 	private String password;
 	private Character tipoUsuario;
 	
+	
+	public Cuenta(String usuario, String password) {
+		super();
+		this.usuario = usuario;
+		this.password = password;
+	}
+
 	public Cuenta(String usuario, String password, Character tipoUsuario) {
 		super();
 		this.usuario = usuario;

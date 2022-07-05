@@ -16,6 +16,35 @@ public class Persona {
 	private Integer idCuenta;
 	
 	public Persona(){}
+	
+	
+	public Persona(String dni, String nombre, String apellido, Date fechaNac, String telefono, String email,
+			String domicilio, Integer idCuenta) {
+		super();
+		this.dni = dni;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.fechaNac = fechaNac;
+		this.telefono = telefono;
+		this.email = email;
+		this.domicilio = domicilio;
+		this.idCuenta = idCuenta;
+	}
+
+
+	public Persona(String dni, String nombre, String apellido, Date fechaNac, Character sexo, String telefono,
+			String email, String domicilio) {
+		super();
+		this.dni = dni;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.fechaNac = fechaNac;
+		this.sexo = sexo;
+		this.telefono = telefono;
+		this.email = email;
+		this.domicilio = domicilio;
+	}
+
 	public Persona(int idPersona, String dni, String nombre, String apellido, Date fechaNac, Character sexo,
 			String telefono, String email, String domicilio, int idCuenta) {
 		super();

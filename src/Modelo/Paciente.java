@@ -1,7 +1,7 @@
 package Modelo;
 import java.sql.Date;
 
-public class Paciente extends Persona {  // Marca error por que falta crear la clase persona asignada a luis será presentada hasta el día 05-07
+public class Paciente extends Persona {  // Marca error por que falta crear la clase persona asignada a luis serï¿½ presentada hasta el dï¿½a 05-07
 
 	// Atributos
 	private int fichaMedica;
@@ -10,6 +10,22 @@ public class Paciente extends Persona {  // Marca error por que falta crear la c
 	public Paciente() {
 		super();
 	
+	}
+
+
+	public Paciente(String dni, String nombre, String apellido, Date fechaNac, String telefono, String email,
+			String domicilio, Integer idCuenta) {
+		super(dni, nombre, apellido, fechaNac, telefono, email, domicilio, idCuenta);
+		this.fichaMedica = -1;
+		// TODO Auto-generated constructor stub
+	}
+
+
+	public Paciente(String dni, String nombre, String apellido, Date fechaNac, Character sexo, String telefono,
+			String email, String domicilio) {
+		super(dni, nombre, apellido, fechaNac, sexo, telefono, email, domicilio);
+		this.fichaMedica = -1;
+		// TODO Auto-generated constructor stub
 	}
 
 	// Constructor con parametros propios y de su SuperClase
