@@ -187,19 +187,20 @@ public class CuentaDao {
 						stmt.setInt(1, idCuenta);
 						rsp = stmt.executeQuery();
 						
+						Conexion.close(rsp);
+						
 						if (rsp.next()) {
 							idPaciente = rsp.getInt("idPersona");
+							Conexion.close(rsp);
 						}										
 						break;
 					case "A":
 						idPaciente = -1;
 						break;
 					}
-
 				}
 				
 				Conexion.close(rs);
-				Conexion.close(rsp);
 				Conexion.close(stmt);
 				Conexion.close(conn);
 			} catch (ClassNotFoundException | SQLException e) {
