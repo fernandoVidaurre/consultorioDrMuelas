@@ -13,7 +13,7 @@ public class Conexion {
 	
 	// cambiar el user y el pass para pruebas aunque nose que tan necesario sea
 	static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-	static final String DB_URL = "jdbc:mysql://localhost:3306/world";
+	static final String DB_URL = "jdbc:mysql://localhost:3306/drmuelasbd";
 	
 	static final String USER = "root";
 	static final String PASS = "admin";
