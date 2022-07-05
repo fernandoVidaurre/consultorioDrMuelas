@@ -15,8 +15,8 @@ public class Conexion {
 	static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
 	static final String DB_URL = "jdbc:mysql://localhost:3306/drmuelasbd";
 	
-	static final String USER = "root";
-	static final String PASS = "admin";
+	static final String USER = "admin";
+	static final String PASS = "root";
 	
 	
 	public static Connection getConnection() throws ClassNotFoundException, SQLException {
