@@ -159,7 +159,7 @@ public class CuentaDao {
 	
 	// LOGIN
 	
-	// devuelve un valor <0 si es paciente -1 si es administrador y -2 si no esta registrado
+	// devuelve un valor >0 si es paciente -1 si es administrador y -2 si no esta registrado
 	
 	public int logIn(Cuenta cuenta) {
 		Connection conn = null;
