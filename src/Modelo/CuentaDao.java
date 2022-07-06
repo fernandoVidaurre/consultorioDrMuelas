@@ -172,9 +172,10 @@ public class CuentaDao {
 		if (verificarCuenta(cuenta.getUsuario())) {
 			try {
 				conn = Conexion.getConnection();
-				String sql = "SELECT * FROM cuenta WHERE user=?";
+				String sql = "SELECT * FROM cuenta WHERE user=? AND password=?";
 				stmt = conn.prepareStatement(sql);
 				stmt.setString(1, cuenta.getUsuario());
+				stmt.setString(2, cuenta.getPassword());
 				rs = stmt.executeQuery();
 				
 				if (rs.next()) {
@@ -187,12 +188,13 @@ public class CuentaDao {
 						stmt.setInt(1, idCuenta);
 						rsp = stmt.executeQuery();
 						
-						Conexion.close(rsp);
+						
 						
 						if (rsp.next()) {
 							idPaciente = rsp.getInt("idPersona");
-							Conexion.close(rsp);
-						}										
+							//Conexion.close(rsp);
+						}
+						Conexion.close(rsp);
 						break;
 					case "A":
 						idPaciente = -1;

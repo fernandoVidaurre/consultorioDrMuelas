@@ -60,7 +60,7 @@ public class TestMainFranco {
 	}
 
 	public static void iniciarSesion() {
-		String usuario = "Admin1";
+		String usuario = "Francoco";
 		String password = "123456";
 		
 		Cuenta cuenta = new Cuenta(usuario, password);
