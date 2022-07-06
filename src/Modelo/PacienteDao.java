@@ -199,4 +199,86 @@ public class PacienteDao {
 		
 		return tratamientos;
 	}
+
+	// metodo que trae los turnos de un paciente
+	
+	public List<Turno> consultarTurno(Date fechaActual, int idPersona) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		Turno turno= null;
+		
+		List<Turno> turnos = new ArrayList<>();
+		try {
+			conn = Conexion.getConnection();
+			String sql = "SELECT * FROM turno WHERE fecha=? AND persona_idPersona=? order by hora asc";
+			stmt = conn.prepareStatement(sql);
+			stmt.setObject (1, fechaActual);
+			stmt.setInt(2,idPersona );
+			rs = stmt.executeQuery();
+			
+			while (rs.next()) {
+				
+				boolean estado = false;
+				 
+				 if(rs.getInt("estado") == 1) {
+					 
+					 estado = true;
+				 }
+				
+				
+				 turno = new Turno(rs.getInt("idTurno"),rs.getDate("fecha"),rs.getTime("hora"));
+				 turno.setEstado(estado);
+				turnos.add(turno);
+				
+			}
+			
+			//System.out.println("ok");
+			Conexion.close(rs);
+			Conexion.close(stmt);
+			Conexion.close(conn);
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return turnos;
+	}
+	
+	public boolean cancelarTurno(int idTurno) {
+		
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		boolean salida= false;
+		
+		try {
+			
+			conn = Conexion.getConnection();
+			String sql = "UPDATE turno SET tipoturno=null,estado=0, persona_idPersona=1 WHERE idTurno=?"; 
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1,idTurno );						
+			if( stmt.executeUpdate() == 1) {
+				salida = true;
+			}else {
+				salida = false;
+			}
+			
+			
+			Conexion.close(stmt);
+			Conexion.close(conn);
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+		
+		return salida;
+	}
+	
+	
 }
