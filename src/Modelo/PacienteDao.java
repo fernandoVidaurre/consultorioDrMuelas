@@ -26,7 +26,7 @@ public class PacienteDao {
 		List<Turno> turnos = new ArrayList<>();
 		try {
 			conn = Conexion.getConnection();
-			String sql = "SELECT * FROM turno WHERE fecha=?";
+			String sql = "SELECT * FROM turno WHERE fecha=? order by hora asc";
 			stmt = conn.prepareStatement(sql);
 			stmt.setObject (1, fechaActual);
 			rs = stmt.executeQuery();
@@ -42,6 +42,7 @@ public class PacienteDao {
 				
 				
 				 turno = new Turno(rs.getInt("idTurno"),rs.getDate("fecha"),rs.getTime("hora"));
+				 turno.setEstado(estado);
 				turnos.add(turno);
 				
 			}
@@ -59,4 +60,36 @@ public class PacienteDao {
 		return turnos;
 	}
 	
+
+
+	// metodo para asignar un turno
+
+	public void cargarTurno(Turno t) {
+		
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		//ResultSet rs = null;
+		//Turno turno= null;
+		
+		try {
+			conn = Conexion.getConnection();
+			String sql = "UPDATE turno SET tipoturno=?,estado=1 WHERE idTurno=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1,t.getTipoTurno());
+			stmt.setInt(2, t.getIdTurno());
+			
+			stmt.executeUpdate();
+			
+			//Conexion.close(rs);
+			Conexion.close(stmt);
+			Conexion.close(conn);
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+	}
 }

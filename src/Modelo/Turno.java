@@ -60,5 +60,22 @@ public class Turno {
 		this.idPersona = idPersona;
 	}
 	
+	// constructo vacio turno
 	
+	public Turno() {
+		
+	}
+	
+	// set TipoTurno
+	
+	public void setTipoTurno(Character tipoTurno) {
+	
+		this.tipoTurno=tipoTurno;
+
+	}
+	public String getTipoTurno() {
+		
+		return (""+this.tipoTurno);
+	}
+
 }
