@@ -14,16 +14,20 @@ public class TestMainJulio {
 		// TODO Auto-generated method stub
 
 		
-		 Scanner entrada = new Scanner(System.in);
+		Scanner entrada = new Scanner(System.in);
 		 
 		PacienteDao pdao = new PacienteDao();
 		
 		Date fecha = Date.valueOf(LocalDate.now());
-		        
-        List<Turno> turnos = pdao.consultarTurno(fecha);
+		//int idTurno=0;        
+        
+		List<Turno> turnos = pdao.consultarTurno(fecha,1); // uso el valor del paciente 1
         		        
 		for (int i = 0; i < turnos.size(); i++) {
+			
+			//idTurno=turnos.get(i).getIdTurno();
 			String disponible = "disponible";
+			
 			if(turnos.get(i).isEstado()) {
 				disponible = "ocupado";
 				
@@ -31,17 +35,26 @@ public class TestMainJulio {
 			System.out.println(turnos.get(i).getIdTurno()+" - "+turnos.get(i).getFecha()+" - "+turnos.get(i).getHora()+" - "+disponible);
 		}
 		
-		/*
+		
 		// pedimos al usuario la eleccion del turno
 		
-		System.out.print("Ingrese el turno disponible elegido: ");
+		System.out.print("Ingrese el numero de turno a Cancelar: ");
 		int idTurno = entrada.nextInt();
-		System.out.print("Ingrese '1' para atencion a menores ó '2' para atencion a  mayores : ");
-		int opc = entrada.nextInt();
+
+		  if( pdao.cancelarTurno(idTurno)) {
+			  System.out.println("turno Cancelado");
+			   }else {
+				   
+				   System.out.println("Error al cancelar Turno");
+			   }
+		
+	//	System.out.print("Ingrese '1' para atencion a menores ó '2' para atencion a  mayores : ");
+	//	int opc = entrada.nextInt();
 		
 		// creamos el objeto turno y le pasamos parametros indicados por el usuario
-		Turno turno = new Turno();
+	//	Turno turno = new Turno();
 		
+		/*
 		turno.setIdTurno(idTurno);
 		if(opc == 1) {
 			turno.setTipoTurno('C');
@@ -52,6 +65,7 @@ public class TestMainJulio {
 		turno.setIdPersona(1);
 		
 		pdao.cargarTurno(turno);
+	
 		*/
 	}
 
