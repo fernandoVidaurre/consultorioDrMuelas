@@ -1,6 +1,5 @@
 package Modelo;
 
-import java.security.AlgorithmParametersSpi;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

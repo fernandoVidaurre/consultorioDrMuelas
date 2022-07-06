@@ -2,12 +2,15 @@ package vista;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
 
 import Modelo.AdministradorDao;
 import Modelo.Cuenta;
 import Modelo.CuentaDao;
 import Modelo.Paciente;
+import Modelo.PacienteDao;
 import Modelo.Persona;
+import Modelo.Tratamiento;
 import Modelo.Turno;
 
 public class TestMainFranco {
@@ -31,7 +34,14 @@ public class TestMainFranco {
 		*
 		*/
 		
-		iniciarSesion();
+		//iniciarSesion();
+		PacienteDao pacienteDao = new PacienteDao();
+		List<Tratamiento> tratamientos = pacienteDao.verTratamientos(2);
+		
+		int i;
+		for (i=0; i < tratamientos.size(); i++) {
+			System.out.println(tratamientos.get(i).getNombreTratamiento());
+		}
 		
 	}
 	

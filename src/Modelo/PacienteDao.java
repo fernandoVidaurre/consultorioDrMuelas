@@ -13,8 +13,6 @@ public class PacienteDao {
 	
 	// aqui se escribiran los metodos que acceden a la bd por parte de paciente
 	//dar de baja turno
-	//ver ficha de tratamientos
-	
 	
 	// metodo para listar turnos
 	public List<Turno> consultarTurno(Date fechaActual) {
@@ -100,6 +98,7 @@ public class PacienteDao {
 		return edad;
 		
 	}
+	
 	public void cargarTurno(Turno t, int idPersona) {
 		
 		Connection conn = null;
@@ -132,9 +131,73 @@ public class PacienteDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	//ver ficha de tratamientos
+	private int verificarFichaMedica(int idPersona) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		int idFicha = -1;
 		
+		try {
+			conn = Conexion.getConnection();
+			String sql = "SELECT fichamedica_idFichaMedica FROM persona WHERE idPersona=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, idPersona);
+			rs = stmt.executeQuery();
+			
+			while (rs.next()) {
+				idFicha = rs.getInt("fichamedica_idFichaMedica");
+			}
+			
+			Conexion.close(rs);
+			Conexion.close(stmt);
+			Conexion.close(conn);
+			
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
+		return idFicha;
+	}
+	
+	public List<Tratamiento> verTratamientos(int idPersona) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		List<Tratamiento> tratamientos = new ArrayList<>();
 		
+		try {
+			int idFicha = verificarFichaMedica(idPersona);
+			if (idFicha > -1){
+				conn = Conexion.getConnection();
+				String sql = "SELECT * FROM tratamiento WHERE fichamedica_idFichaMedica=?";
+				stmt = conn.prepareStatement(sql);
+				stmt.setInt(1, idFicha);
+				rs = stmt.executeQuery();
+				
+				while (rs.next()) {
+					Date fecha = rs.getDate("fecha");
+					String nombreTratamiento = rs.getString("nombreTratamiento");
+					String detalle = rs.getString("detalle");
+					Tratamiento tratamiento = new Tratamiento(fecha, nombreTratamiento, detalle);
+					tratamientos.add(tratamiento);
+				}
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return tratamientos;
 	}
 
 	// metodo que trae los turnos de un paciente
