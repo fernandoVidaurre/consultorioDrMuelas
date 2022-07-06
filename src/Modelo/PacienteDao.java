@@ -5,9 +5,12 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.lang.model.type.NullType;
 
 public class PacienteDao {
 	
@@ -246,7 +249,7 @@ public class PacienteDao {
 		return turnos;
 	}
 	
-	public boolean cancelarTurno(int idTurno) {
+	public boolean cancelarTurno(Turno turno) {
 		
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -255,9 +258,10 @@ public class PacienteDao {
 		try {
 			
 			conn = Conexion.getConnection();
-			String sql = "UPDATE turno SET tipoturno=null,estado=0, persona_idPersona=1 WHERE idTurno=?"; 
+			String sql = "UPDATE turno SET estado=0, persona_idPersona=? WHERE idTurno=?"; 
 			stmt = conn.prepareStatement(sql);
-			stmt.setInt(1,idTurno );						
+			stmt.setNull(1, Types.NULL);
+			stmt.setInt(2,turno.getIdTurno());						
 			if( stmt.executeUpdate() == 1) {
 				salida = true;
 			}else {
@@ -272,9 +276,6 @@ public class PacienteDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
 		
 		
 		return salida;

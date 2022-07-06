@@ -41,14 +41,16 @@ public class TestMainJulio {
 		System.out.print("Ingrese el numero de turno a Cancelar: ");
 		int idTurno = entrada.nextInt();
 
+		
 		  if( pdao.cancelarTurno(idTurno)) {
 			  System.out.println("turno Cancelado");
 			   }else {
 				   
 				   System.out.println("Error al cancelar Turno");
 			   }
+			   
 		
-	//	System.out.print("Ingrese '1' para atencion a menores ó '2' para atencion a  mayores : ");
+	//	System.out.print("Ingrese '1' para atencion a menores ï¿½ '2' para atencion a  mayores : ");
 	//	int opc = entrada.nextInt();
 		
 		// creamos el objeto turno y le pasamos parametros indicados por el usuario
