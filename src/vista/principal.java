@@ -263,6 +263,8 @@ public class principal {
 				}
 				
 			} while (!eliminado);
+		} else {
+			System.out.println("No tiene turnos pendientes");
 		}
 		
 	}

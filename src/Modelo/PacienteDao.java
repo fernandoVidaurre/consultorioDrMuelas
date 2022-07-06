@@ -48,7 +48,7 @@ public class PacienteDao {
 				
 			}
 			
-			System.out.println("ok");
+			//System.out.println("ok");
 			Conexion.close(rs);
 			Conexion.close(stmt);
 			Conexion.close(conn);

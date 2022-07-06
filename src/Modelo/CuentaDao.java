@@ -7,7 +7,6 @@ import java.sql.SQLException;
 
 public class CuentaDao {
 	
-	
 	// REGISTRO DE PACIENTE
 	private boolean verificarCuenta(String username) {
 		// devuelve false si no se encuentra
