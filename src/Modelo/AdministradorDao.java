@@ -14,6 +14,7 @@ public class AdministradorDao {
 	// aqui se escribiran los metodos que acceden a la bd por parte de Administrador
 	
 	// ver fichas de pacientes
+	public List<FichaMedica> traerFichas() {}
 
 	// cargar un paciente a emergencias
 	private void cargarTurno(int id) {
@@ -76,5 +77,6 @@ public class AdministradorDao {
 		
 		return turno;
 	}
+
 	// generar informe
 }
