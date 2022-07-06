@@ -19,6 +19,12 @@ public class Tratamiento {
 	}
 
 	// Constructor con Parametros
+	public Tratamiento(Date fecha, String nombreTratamiento, String detalle) {
+		super();
+		this.fecha = fecha;
+		this.nombreTratamiento = nombreTratamiento;
+		this.detalle = detalle;
+	}
 	
 	public Tratamiento(int idTratamiento, Date fecha, String nombreTratamiento, String detalle, int idFichaMedica) {
 		this.idTratamiento = idTratamiento;
@@ -29,7 +35,7 @@ public class Tratamiento {
 	}
 
 	// Getters
-	
+
 	public int getIdTratamiento() {
 		return idTratamiento;
 	}
@@ -81,5 +87,10 @@ public class Tratamiento {
 				+ nombreTratamiento + ", detalle=" + detalle + ", idFichaMedica=" + idFichaMedica + "]";
 	}
 	
-	
+	public void mostrarDatos() {
+		System.out.println("Nombre: " + this.nombreTratamiento);
+		System.out.println("Detalle :" + this.detalle);
+		System.out.println("Fecha: " + this.fecha);
+		
+	}
 }

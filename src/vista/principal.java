@@ -9,6 +9,7 @@ import Modelo.Cuenta;
 import Modelo.CuentaDao;
 import Modelo.PacienteDao;
 import Modelo.Persona;
+import Modelo.Tratamiento;
 import Modelo.Turno;
 
 public class principal {
@@ -69,6 +70,7 @@ public class principal {
 							break;
 						case 3:
 							// ver fichas de tratamientos
+							verTratamientos(id, pacienteDao);
 							break;
 						}
 					} while (opcP != 0);
@@ -187,5 +189,18 @@ public class principal {
 			}
 			
 		} while (!cargado);
+	}
+	
+	public static void verTratamientos(int id, PacienteDao pacienteDao) {
+		List<Tratamiento> tratamientos = pacienteDao.verTratamientos(id);
+		
+		if (!tratamientos.isEmpty()) {
+			int i;
+			for (i = 0; i < tratamientos.size(); i++) {
+				System.out.println("**********************************");
+				tratamientos.get(i).mostrarDatos();
+				System.out.println("**********************************");
+			}
+		}
 	}
 }
