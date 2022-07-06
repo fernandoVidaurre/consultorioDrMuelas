@@ -12,7 +12,6 @@ import java.util.List;
 public class PacienteDao {
 	
 	// aqui se escribiran los metodos que acceden a la bd por parte de paciente
-	// crear turno
 	//dar de baja turno
 	//ver ficha de tratamientos
 	
@@ -65,6 +64,7 @@ public class PacienteDao {
 
 	// metodo para asignar un turno
 
+	// consulta la edad de una persona, para poder escribir que tipo de turno pertenece
 	private int consultarEdad(int idPersona) {
 		Connection conn = null;
 		PreparedStatement stmt = null;

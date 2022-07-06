@@ -148,13 +148,22 @@ public class principal {
 		
 	}
 	
+	private static boolean verificarDisponible(Turno turno) {
+		if (turno.isEstado() == false) {
+			return true;
+		}
+		
+		return false;
+	}
+	
 	public static void pedirTurno(int id, PacienteDao pacienteDao) {
 		List<Turno> listaTurnos = pacienteDao.consultarTurno(Date.valueOf(LocalDate.now()));
-		int i, j=0;
+		int i, j;
 		int opcT;
 		boolean cargado = false;
 		System.out.println("Seleccione un horario");
 		do {
+			j=0;
 			for (i = 0; i < listaTurnos.size(); i++) {
 				j++;
 				if (listaTurnos.get(i).isEstado() == false) {
@@ -167,7 +176,7 @@ public class principal {
 			// usuario debe elegir un turno
 			opcT = teclado.nextInt();
 			
-			if (opcT >= 1 && opcT <= listaTurnos.size()) {
+			if (opcT >= 1 && opcT <= listaTurnos.size() && verificarDisponible(listaTurnos.get(opcT - 1))) {
 				pacienteDao.cargarTurno(listaTurnos.get(opcT - 1), id);
 				cargado = true;
 				System.out.println("Se ha cargado con exito");
