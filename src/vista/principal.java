@@ -13,9 +13,9 @@ public class principal {
 		// TODO Auto-generated method stub
 		int opc;
 		
-		System.out.println("*-*-*-* DR MUELAS *-*-*-*");
-		System.out.println("-------------------------");
 		do {
+			System.out.println("*-*-*-* DR MUELAS *-*-*-*");
+			System.out.println("-------------------------");
 			opc = menuPrincipal();
 			
 			switch (opc) {
