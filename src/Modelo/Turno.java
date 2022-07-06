@@ -8,7 +8,7 @@ public class Turno {
 	private int idTurno;
 	private Date fecha;
 	private Time hora;
-	private Character tipoTurno;
+	private String tipoTurno;
 	private boolean estado;
 	private Integer idPersona;
 	
@@ -68,7 +68,7 @@ public class Turno {
 	
 	// set TipoTurno
 	
-	public void setTipoTurno(Character tipoTurno) {
+	public void setTipoTurno(String tipoTurno) {
 	
 		this.tipoTurno=tipoTurno;
 

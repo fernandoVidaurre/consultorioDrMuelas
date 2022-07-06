@@ -1,10 +1,15 @@
 package vista;
 
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Scanner;
 
 import Modelo.Cuenta;
 import Modelo.CuentaDao;
+import Modelo.PacienteDao;
 import Modelo.Persona;
+import Modelo.Turno;
 
 public class principal {
 
@@ -53,9 +58,11 @@ public class principal {
 					
 					do {
 						opcP = menuPaciente();
+						PacienteDao pacienteDao = new PacienteDao();
 						switch (opcP) {
 						case 1:
 							// Pedir turno
+							pedirTurno(id, pacienteDao);
 							break;
 						case 2:
 							// dar de baja un turno
@@ -75,6 +82,7 @@ public class principal {
 			}
 		} while (opc != 0);
 
+		System.out.println("Programa Finalizado");
 	}
 	
 	public static int menuPrincipal() {
@@ -138,5 +146,37 @@ public class principal {
 	}
 	public static void registrar() {
 		
+	}
+	
+	public static void pedirTurno(int id, PacienteDao pacienteDao) {
+		List<Turno> listaTurnos = pacienteDao.consultarTurno(Date.valueOf(LocalDate.now()));
+		int i, j=0;
+		int opcT;
+		boolean cargado = false;
+		System.out.println("Seleccione un horario");
+		do {
+			for (i = 0; i < listaTurnos.size(); i++) {
+				j++;
+				if (listaTurnos.get(i).isEstado() == false) {
+					System.out.println(j + "-" + "Hora: " + listaTurnos.get(i).getHora() + "- Disponible");
+				} else {
+					System.out.println(j + "-" + "Hora: " + listaTurnos.get(i).getHora() + "- No Disponible");
+				}
+			}
+			System.out.println("0-Salir");
+			// usuario debe elegir un turno
+			opcT = teclado.nextInt();
+			
+			if (opcT >= 1 && opcT <= listaTurnos.size()) {
+				pacienteDao.cargarTurno(listaTurnos.get(opcT - 1), id);
+				cargado = true;
+				System.out.println("Se ha cargado con exito");
+			} else if (opcT != 0) {
+				System.out.println("No es una opcion valida");
+			} else {
+				cargado = true;
+			}
+			
+		} while (!cargado);
 	}
 }
