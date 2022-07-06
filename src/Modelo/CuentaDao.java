@@ -123,13 +123,13 @@ public class CuentaDao {
 					stmtp.setString(3, persona.getNombre());
 					stmtp.setDate(4, persona.getFechaNac());
 					switch(persona.getSexo()) {
-					case 'M':
+					case "M":
 						stmtp.setInt(5, 1);
 						break;
-					case 'F':
+					case "F":
 						stmtp.setInt(5, 2);
 						break;
-					case 'X':
+					case "X":
 						stmtp.setInt(5, 3);
 					break;
 					}

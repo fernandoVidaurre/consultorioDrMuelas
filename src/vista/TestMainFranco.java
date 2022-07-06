@@ -50,7 +50,7 @@ public class TestMainFranco {
 		String apellido = "Avendaño";
 		String dni = "31425023";
 		Date fechaNac = Date.valueOf(LocalDate.of(1993, 8, 2));
-		Character sexo = 'M';
+		String sexo = "M";
 		String telefono = "123421";
 		String email = "franco@mail.com";
 		String domicilio = "avenida siempreviva";

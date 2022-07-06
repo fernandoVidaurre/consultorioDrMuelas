@@ -21,7 +21,7 @@ public class Paciente extends Persona {  // Marca error por que falta crear la c
 	}
 
 
-	public Paciente(String dni, String nombre, String apellido, Date fechaNac, Character sexo, String telefono,
+	public Paciente(String dni, String nombre, String apellido, Date fechaNac, String sexo, String telefono,
 			String email, String domicilio) {
 		super(dni, nombre, apellido, fechaNac, sexo, telefono, email, domicilio);
 		this.fichaMedica = -1;
@@ -29,7 +29,7 @@ public class Paciente extends Persona {  // Marca error por que falta crear la c
 	}
 
 	// Constructor con parametros propios y de su SuperClase
-	public Paciente(int fichaMedica,int idPersona,String dni,String apellido,String nombre,Date fechaNac,char sexo,String telefono,
+	public Paciente(int fichaMedica,int idPersona,String dni,String apellido,String nombre,Date fechaNac,String sexo,String telefono,
 			String email,String domicilio,int idCuenta, int idFichaMedica ) {
 		
 		super(idPersona,dni,apellido,nombre,fechaNac,sexo,telefono,email,domicilio,idCuenta);

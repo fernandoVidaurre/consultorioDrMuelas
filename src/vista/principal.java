@@ -80,6 +80,7 @@ public class principal {
 				break;
 			case 2:
 				// registrar paciente
+				registrar();
 				break;
 			}
 		} while (opc != 0);
@@ -140,14 +141,51 @@ public class principal {
 	}
 	
 	private static Persona cargarPersona() {
-		Persona nueva = new Persona();
+		Persona nuevaPersona;
 		//cargar los datos
+		teclado.nextLine();
+		System.out.println("Nombre: ");
+		String nombre = teclado.nextLine();
+		System.out.println("Apellido: ");
+		String apellido = teclado.nextLine();
+		System.out.println("Dni: ");
+		String dni = teclado.nextLine();
+		System.out.println("telefono: ");
+		String telefono = teclado.nextLine();
+		System.out.println("email: ");
+		String email = teclado.nextLine();
+		System.out.println("domicilio: ");
+		String domicilio = teclado.nextLine();
+		System.out.println("Sexo: M:Masculino, F:Femenino, X:?");
+		String sexo = teclado.nextLine();
+		System.out.println("Fecha nacimientos: ");
+		System.out.println("Dia: ");
+		int dia = teclado.nextInt();
+		System.out.println("Mes: ");
+		int mes = teclado.nextInt();
+		System.out.println("Año: ");
+		int anio = teclado.nextInt();
+		Date fechaNac = Date.valueOf(LocalDate.of(anio, mes, dia));
 		
-		return nueva;
+		nuevaPersona = new Persona(dni, nombre, apellido, fechaNac, sexo, telefono, email, domicilio);
+		
+		return nuevaPersona;
 		
 	}
 	public static void registrar() {
+		Persona nuevaPersona = cargarPersona();
+		Cuenta cuenta = cargarCuenta();
+		CuentaDao cuentaDao = new CuentaDao();
+		boolean cargado = false;
 		
+		
+		cargado = cuentaDao.registrar(nuevaPersona, cuenta);
+			
+		if (cargado) {
+			System.out.println("Se ha registrado con exito");
+		} else {
+			System.out.println("No se ha podido registrar, usuario o paciente ya existente");
+		}		
 	}
 	
 	private static boolean verificarDisponible(Turno turno) {
