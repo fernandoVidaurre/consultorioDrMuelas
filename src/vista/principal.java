@@ -5,8 +5,10 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
+import Modelo.AdministradorDao;
 import Modelo.Cuenta;
 import Modelo.CuentaDao;
+import Modelo.Informe;
 import Modelo.PacienteDao;
 import Modelo.Persona;
 import Modelo.Tratamiento;
@@ -36,7 +38,7 @@ public class principal {
 					int opcA;
 					do {
 						opcA = menuAdmin();
-						
+						AdministradorDao administradorDao = new AdministradorDao();
 						switch (opcA) {
 						case 1:
 							// mostrar fichas de pacientes
@@ -46,7 +48,10 @@ public class principal {
 							break;
 						case 3:
 							// generar reporte
+							generarInforme(administradorDao);
 							break;
+						case 4:
+							generarTurnos(administradorDao);
 						}
 					} while (opcA != 0);
 					
@@ -105,9 +110,11 @@ public class principal {
 	public static int menuAdmin() {
 		int opc;
 		
+		System.out.println("");
 		System.out.println("1-Mostrar Fichas Medicas de Todos los Pacientes");
 		System.out.println("2-Cargar Paciente en Emergencias");
 		System.out.println("3-Generar Reporte Mensual");
+		System.out.println("4-Generar turnos");
 		System.out.println("0-Salir");
 		opc = teclado.nextInt();
 		
@@ -118,6 +125,7 @@ public class principal {
 	public static int menuPaciente() {
 		int opc;
 		
+		System.out.println("");
 		System.out.println("1-Pedir Turno");
 		System.out.println("2-Dar de Baja un Turno");
 		System.out.println("3-Ver fichas de tratamientos");
@@ -199,36 +207,54 @@ public class principal {
 	}
 	
 	public static void pedirTurno(int id, PacienteDao pacienteDao) {
-		List<Turno> listaTurnos = pacienteDao.consultarTurno(Date.valueOf(LocalDate.now()));
-		int i, j;
-		int opcT;
+		List<Date> dias = pacienteDao.listarDias();
+		int i, j, k;
+		int opcT, opcD;
 		boolean cargado = false;
-		System.out.println("Seleccione un horario");
+		
 		do {
-			j=0;
-			for (i = 0; i < listaTurnos.size(); i++) {
-				j++;
-				if (listaTurnos.get(i).isEstado() == false) {
-					System.out.println(j + "-" + "Hora: " + listaTurnos.get(i).getHora() + "- Disponible");
-				} else {
-					System.out.println(j + "-" + "Hora: " + listaTurnos.get(i).getHora() + "- No Disponible");
-				}
+			k = 0;
+			System.out.println("Seleccione un dia");
+			for (i = 0; i < dias.size(); i++) {
+				k++;
+				System.out.println(k + "-" + "Dia: " + dias.get(i));
 			}
+			
 			System.out.println("0-Salir");
-			// usuario debe elegir un turno
-			opcT = teclado.nextInt();
+			opcD = teclado.nextInt();
 			
-			if (opcT >= 1 && opcT <= listaTurnos.size() && verificarDisponible(listaTurnos.get(opcT - 1))) {
-				pacienteDao.cargarTurno(listaTurnos.get(opcT - 1), id);
-				cargado = true;
-				System.out.println("Se ha cargado con exito");
-			} else if (opcT != 0) {
-				System.out.println("No es una opcion valida");
-			} else {
-				cargado = true;
+			if (opcD >= 1 && opcD <= dias.size() && opcD != 0) {
+				List<Turno> listaTurnos = pacienteDao.consultarTurno(dias.get(opcD - 1));
+				System.out.println("Seleccione un horario");
+				do {
+					j=0;
+					for (i = 0; i < listaTurnos.size(); i++) {
+						j++;
+						if (listaTurnos.get(i).isEstado() == false) {
+							System.out.println(j + "-" + "Hora: " + listaTurnos.get(i).getHora() + "- Disponible");
+						} else {
+							System.out.println(j + "-" + "Hora: " + listaTurnos.get(i).getHora() + "- No Disponible");
+						}
+					}
+					System.out.println("0-Salir");
+					// usuario debe elegir un turno
+					opcT = teclado.nextInt();
+					
+					if (opcT >= 1 && opcT <= listaTurnos.size() && verificarDisponible(listaTurnos.get(opcT - 1))) {
+						pacienteDao.cargarTurno(listaTurnos.get(opcT - 1), id);
+						cargado = true;
+						System.out.println("Se ha cargado con exito");
+					} else if (opcT != 0) {
+						System.out.println("No es una opcion valida");
+					} else {
+						cargado = true;
+					}
+					
+				} while (!cargado);
+				opcD = 0;
 			}
-			
-		} while (!cargado);
+		} while (opcD != 0);
+
 	}
 	
 	public static void verTratamientos(int id, PacienteDao pacienteDao) {
@@ -263,10 +289,42 @@ public class principal {
 					eliminado = pacienteDao.cancelarTurno(turnos.get(opcT - 1));
 				}
 				
-			} while (!eliminado);
+			} while (!eliminado && opcT != 0);
 		} else {
 			System.out.println("No tiene turnos pendientes");
 		}
 		
+	}
+	
+	public static void generarTurnos(AdministradorDao admin) {
+		int opc;
+		int dia, mes, anio;
+		do {
+			System.out.println("Ingrese fecha a cargar");
+			System.out.println("Dia: ");
+			dia = teclado.nextInt();
+			System.out.println("Mes: ");
+			mes = teclado.nextInt();
+			System.out.println("Año: ");
+			anio = teclado.nextInt();
+			
+			Date fecha = Date.valueOf(LocalDate.of(anio, mes, dia));
+			admin.generarTurnos(fecha);
+			teclado.nextLine();
+			System.out.println("Desea seguir ingresando? 1-SI/2-NO");
+			opc = teclado.nextInt();
+		} while (opc != 2);
+	}
+	
+	public static void generarInforme(AdministradorDao admin) {
+		int mes;
+		Informe informe;
+		
+		System.out.println("Ingrese mes del que quiere generar informe");
+		mes = teclado.nextInt();
+		
+		informe = admin.generarInforme(mes);
+		
+		informe.reportar();
 	}
 }

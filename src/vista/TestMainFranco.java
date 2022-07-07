@@ -7,6 +7,7 @@ import java.util.List;
 import Modelo.AdministradorDao;
 import Modelo.Cuenta;
 import Modelo.CuentaDao;
+import Modelo.Informe;
 import Modelo.Paciente;
 import Modelo.PacienteDao;
 import Modelo.Persona;
@@ -35,6 +36,7 @@ public class TestMainFranco {
 		*/
 		
 		//iniciarSesion();
+		/*
 		PacienteDao pacienteDao = new PacienteDao();
 		List<Tratamiento> tratamientos = pacienteDao.verTratamientos(2);
 		
@@ -42,6 +44,29 @@ public class TestMainFranco {
 		for (i=0; i < tratamientos.size(); i++) {
 			System.out.println(tratamientos.get(i).getNombreTratamiento());
 		}
+		*/
+		/*
+		AdministradorDao adminDao = new AdministradorDao();
+		Date fecha = Date.valueOf(LocalDate.of(2022, 7, 9));
+		adminDao.generarTurnos(fecha);
+		*/
+		
+		/*
+		PacienteDao pacienteDao = new PacienteDao();
+		
+		List<Date> dias = pacienteDao.listarDias();
+		
+		for (int i=0; i < dias.size(); i++) {
+			System.out.println(dias.get(i));
+		}
+		*/
+		
+		AdministradorDao administradorDao = new AdministradorDao();
+		
+		Informe informe = administradorDao.generarInforme(7);
+		
+		// 9 chicos 8 mayores 5 emergencias
+		informe.reportar();
 		
 	}
 	
