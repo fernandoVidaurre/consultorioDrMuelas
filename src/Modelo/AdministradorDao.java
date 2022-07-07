@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AdministradorDao {
@@ -78,6 +80,59 @@ public class AdministradorDao {
 		return turno;
 	}
 
+	// generar Turnos
+	
+	private List<Time> cargarHorario() {
+		List<Time> horarios = new ArrayList<Time>();
+		horarios.add(Time.valueOf(LocalTime.of(8, 0)));
+		horarios.add(Time.valueOf(LocalTime.of(8, 30)));
+		horarios.add(Time.valueOf(LocalTime.of(9, 0)));
+		horarios.add(Time.valueOf(LocalTime.of(9, 30)));
+		horarios.add(Time.valueOf(LocalTime.of(10, 0)));
+		horarios.add(Time.valueOf(LocalTime.of(10, 30)));
+		horarios.add(Time.valueOf(LocalTime.of(11, 0)));
+		horarios.add(Time.valueOf(LocalTime.of(11, 30)));
+		horarios.add(Time.valueOf(LocalTime.of(12, 0)));
+		horarios.add(Time.valueOf(LocalTime.of(14, 0)));
+		horarios.add(Time.valueOf(LocalTime.of(14, 30)));
+		horarios.add(Time.valueOf(LocalTime.of(15, 0)));
+		horarios.add(Time.valueOf(LocalTime.of(15, 30)));
+		horarios.add(Time.valueOf(LocalTime.of(16, 0)));
+		horarios.add(Time.valueOf(LocalTime.of(16, 30)));
+		horarios.add(Time.valueOf(LocalTime.of(17, 0)));
+		horarios.add(Time.valueOf(LocalTime.of(18, 0)));
+		
+		return horarios;
+	}
+	
+	public boolean generarTurnos(Date fecha) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		int i;
+		List<Time> horarios = cargarHorario();
+		
+		try {
+			conn = Conexion.getConnection();
+			String sql = "INSERT INTO turno(fecha, estado, hora) VALUES(?, 0, ?)";
+			stmt = conn.prepareStatement(sql);
+			for (i = 0; i < horarios.size(); i++) {
+				stmt.setDate(1, fecha);
+				stmt.setTime(2, horarios.get(i));
+				stmt.executeUpdate();
+			}
+			
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return true;
+
+	}
 	// generar informe
 	
 	// SELECT * FROM turno WHERE date_format(fecha, '%m')= 7

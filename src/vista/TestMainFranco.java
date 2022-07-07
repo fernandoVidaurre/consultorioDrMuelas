@@ -35,6 +35,7 @@ public class TestMainFranco {
 		*/
 		
 		//iniciarSesion();
+		/*
 		PacienteDao pacienteDao = new PacienteDao();
 		List<Tratamiento> tratamientos = pacienteDao.verTratamientos(2);
 		
@@ -42,6 +43,11 @@ public class TestMainFranco {
 		for (i=0; i < tratamientos.size(); i++) {
 			System.out.println(tratamientos.get(i).getNombreTratamiento());
 		}
+		*/
+		
+		AdministradorDao adminDao = new AdministradorDao();
+		Date fecha = Date.valueOf(LocalDate.of(2022, 7, 9));
+		adminDao.generarTurnos(fecha);
 		
 	}
 	
