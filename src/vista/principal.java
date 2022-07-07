@@ -12,6 +12,7 @@ import Modelo.AdministradorDao;
 import Modelo.Cuenta;
 import Modelo.CuentaDao;
 import Modelo.Informe;
+import Modelo.Paciente;
 import Modelo.PacienteDao;
 import Modelo.Persona;
 import Modelo.Tratamiento;
@@ -45,6 +46,7 @@ public class principal {
 						switch (opcA) {
 						case 1:
 							// mostrar fichas de pacientes
+							verTratamientosPacientes(administradorDao);
 							break;
 						case 2:
 							// cargar paciente a emerfencias
@@ -271,6 +273,8 @@ public class principal {
 				tratamientos.get(i).mostrarDatos();
 				System.out.println("**********************************");
 			}
+		} else {
+			System.out.println("No tiene ningun tratamiento");
 		}
 	}
 	
@@ -403,5 +407,27 @@ public class principal {
 		} else {
 			System.out.println("No hay turnos disponibles para hoy");
 		}			
+	}
+	
+	public static void verTratamientosPacientes(AdministradorDao admin) {
+		PacienteDao paciente = new PacienteDao();
+		int opcP;
+		List<Paciente> personas = admin.listarPacientes();
+		int i,j,k;
+		do {
+			j = 0;
+			for (i=0; i < personas.size(); i++) {
+				j++;
+				System.out.println(j + "- Nombre:" + personas.get(i).getNombre() + " " + personas.get(i).getApellido() + " DNI: " + personas.get(i).getDni());
+			}
+			System.out.println("0-Salir");
+			opcP = teclado.nextInt();
+			
+			if (opcP != 0) {
+				verTratamientos(personas.get(opcP - 1).getIdPersona(), paciente);
+			}
+		} while (opcP != 0);
+
+		
 	}
 }

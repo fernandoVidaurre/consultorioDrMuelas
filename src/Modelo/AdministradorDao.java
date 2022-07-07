@@ -18,7 +18,59 @@ public class AdministradorDao {
 	
 	// ver fichas de pacientes
 	//public List<FichaMedica> traerFichas() {}
-
+	// Metodo para listar los pacientes 
+	public List<Paciente>listarPacientes(){
+		
+		//List<Paciente> listado=null;
+		
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		Paciente paciente= null;
+		
+		List<Paciente> pacientes = new ArrayList<>();
+		try {
+			conn = Conexion.getConnection();
+			String sql = "SELECT * FROM persona WHERE fichamedica_idFichaMedica <> 'NULL' order by idPersona asc"; // Selecciona aquellas personas que tengan una ficha medica asociada para asegurarme que es un paciente.
+			stmt = conn.prepareStatement(sql);
+			//stmt.setObject (1, fechaActual);
+			rs = stmt.executeQuery();
+			
+			//System.out.print(rs);
+							
+			while (rs.next()) {
+				
+				paciente = new Paciente(rs.getInt("fichamedica_idFichaMedica"),
+						rs.getInt("idPersona"),
+						rs.getString("dni"),
+						rs.getString("nombre"),
+						rs.getString("apellido"),
+						rs.getDate("fechaNac"),
+						rs.getString("sexo"),
+						rs.getString("telefono"),
+						rs.getString("email"),
+						rs.getString("domicilio"),
+						rs.getInt("cuenta_id_cuenta"),
+						rs.getInt("fichamedica_idFichaMedica"));
+					
+				pacientes.add(paciente);
+		
+			}
+						
+			Conexion.close(rs);
+			Conexion.close(stmt);
+			Conexion.close(conn);
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	
+		
+		return pacientes;
+	}
+	
 	// cargar un paciente a emergencias
 	private void cargarTurno(int idTurno, int idPersona) {
 		Connection conn = null;

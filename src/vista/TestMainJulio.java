@@ -18,7 +18,7 @@ public class TestMainJulio {
 
 /////// lista los pacientes 
 		PacienteDao pdao = new PacienteDao();
-		
+		/*
 		List<Paciente> pacientes = pdao.listarPacientes();
 		
 		for (int i = 0; i < pacientes.size(); i++) {
@@ -27,7 +27,7 @@ public class TestMainJulio {
 		
 		
 		}
-
+*/
 /////// solicita al usuario que indique el id del paciente, del cual quiere ver los tratamientos
 		int idPersona;
 		Scanner entrada = new Scanner(System.in);
