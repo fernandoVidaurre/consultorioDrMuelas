@@ -67,6 +67,7 @@ public class principal {
 							break;
 						case 2:
 							// dar de baja un turno
+							cancelarTurno(id, pacienteDao);
 							break;
 						case 3:
 							// ver fichas de tratamientos
@@ -91,6 +92,7 @@ public class principal {
 	public static int menuPrincipal() {
 		int opc;
 		
+		System.out.println("");
 		System.out.println("1-Iniciar Sesion");
 		System.out.println("2-Registrarse");
 		System.out.println("0-Salir");
@@ -240,5 +242,31 @@ public class principal {
 				System.out.println("**********************************");
 			}
 		}
+	}
+	
+	public static void cancelarTurno(int id, PacienteDao pacienteDao) {
+		List<Turno> turnos = pacienteDao.consultarTurno(Date.valueOf(LocalDate.now()), id);
+		int i, j, opcT;
+		boolean eliminado = false;
+	
+		if (!turnos.isEmpty()) {
+			System.out.println("Seleccione un turno a dar de baja");
+			do {
+				j=0;
+				for (i = 0; i < turnos.size(); i++) {
+					j++;
+					System.out.println(j+ "-" + "Hora: " + turnos.get(i).getHora());
+				}
+				System.out.println("0-Salir");
+				opcT = teclado.nextInt();
+				if (opcT >= 1 && opcT <= turnos.size() && opcT != 0) {
+					eliminado = pacienteDao.cancelarTurno(turnos.get(opcT - 1));
+				}
+				
+			} while (!eliminado);
+		} else {
+			System.out.println("No tiene turnos pendientes");
+		}
+		
 	}
 }
