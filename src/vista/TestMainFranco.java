@@ -60,14 +60,18 @@ public class TestMainFranco {
 			System.out.println(dias.get(i));
 		}
 		*/
-		
+		/*
 		AdministradorDao administradorDao = new AdministradorDao();
 		
 		Informe informe = administradorDao.generarInforme(7);
 		
 		// 9 chicos 8 mayores 5 emergencias
 		informe.reportar();
+		*/
+		AdministradorDao admin = new AdministradorDao();
 		
+		Turno turno = admin.cargarEmergencia("12345678");
+		System.out.println(turno.getFecha());
 	}
 	
 	public static Paciente cargarPaciente() {

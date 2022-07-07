@@ -1,7 +1,10 @@
 package vista;
 
 import java.sql.Date;
+import java.sql.Time;
+import java.sql.Types;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Scanner;
 
@@ -45,6 +48,7 @@ public class principal {
 							break;
 						case 2:
 							// cargar paciente a emerfencias
+							cargarEmergencia(administradorDao);
 							break;
 						case 3:
 							// generar reporte
@@ -326,5 +330,78 @@ public class principal {
 		informe = admin.generarInforme(mes);
 		
 		informe.reportar();
+	}
+	
+	private static Persona cargarPersona(String dni) {
+		Persona nuevaPersona;
+		//cargar los datos
+		teclado.nextLine();
+		System.out.println("Nombre: ");
+		String nombre = teclado.nextLine();
+		System.out.println("Apellido: ");
+		String apellido = teclado.nextLine();
+		String dniNuevo = dni;
+		System.out.println("telefono: ");
+		String telefono = teclado.nextLine();
+		System.out.println("email: ");
+		String email = teclado.nextLine();
+		System.out.println("domicilio: ");
+		String domicilio = teclado.nextLine();
+		System.out.println("Sexo: M:Masculino, F:Femenino, X:?");
+		String sexo = teclado.nextLine();
+		System.out.println("Fecha nacimientos: ");
+		System.out.println("Dia: ");
+		int dia = teclado.nextInt();
+		System.out.println("Mes: ");
+		int mes = teclado.nextInt();
+		System.out.println("Año: ");
+		int anio = teclado.nextInt();
+		Date fechaNac = Date.valueOf(LocalDate.of(anio, mes, dia));
+		
+		nuevaPersona = new Persona(dni, nombre, apellido, fechaNac, sexo, telefono, email, domicilio);
+		
+		return nuevaPersona;
+		
+	}
+	
+	public static Cuenta cargarCuenta(String usuario, String password) {		
+		Cuenta cuenta = new Cuenta(usuario, password);
+		
+		return cuenta;
+	}
+	public static void cargarEmergencia(AdministradorDao admin) {
+		PacienteDao pacienteDao = new PacienteDao();
+		List<Turno> turnos = pacienteDao.consultarTurno(Date.valueOf(LocalDate.now()));
+		boolean disponible = false;
+		Time horaActual = Time.valueOf(LocalTime.now());
+		
+		int i=0;
+		
+		while (i < turnos.size() && !disponible) {
+			if (turnos.get(i).getHora().getTime() > horaActual.getTime() && !turnos.get(i).isEstado()) {
+				disponible = true;
+			} 
+			i++;
+		}
+		
+		if (disponible) {
+			teclado.nextLine();
+			System.out.println("Ingrese dni: ");
+			String dni = teclado.nextLine();
+			
+			if (!admin.verificaPersona(dni)) {
+				CuentaDao cuentaDao = new CuentaDao();
+				Persona persona = cargarPersona(dni);
+				Cuenta cuenta = cargarCuenta(persona.getDni(), persona.getDni());
+				
+				cuentaDao.registrar(persona, cuenta);
+			}
+			
+			Turno turno = admin.cargarEmergencia(dni);
+			
+			System.out.println("hora: " + turno.getHora());
+		} else {
+			System.out.println("No hay turnos disponibles para hoy");
+		}			
 	}
 }
