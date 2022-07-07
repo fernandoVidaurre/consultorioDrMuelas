@@ -285,7 +285,7 @@ public class principal {
 				j=0;
 				for (i = 0; i < turnos.size(); i++) {
 					j++;
-					System.out.println(j+ "-" + "Hora: " + turnos.get(i).getHora());
+					System.out.println(j+ "-"+ turnos.get(i).getFecha() +" - " + "Hora: " + turnos.get(i).getHora());
 				}
 				System.out.println("0-Salir");
 				opcT = teclado.nextInt();
