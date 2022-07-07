@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
+import java.sql.Types;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -19,20 +20,20 @@ public class AdministradorDao {
 	//public List<FichaMedica> traerFichas() {}
 
 	// cargar un paciente a emergencias
-	private void cargarTurno(int id) {
+	private void cargarTurno(int idTurno, int idPersona) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
 		try {
 			conn = Conexion.getConnection();
-			String sql = "UPDATE turno SET tipoturno='E', estado=1 WHERE idTurno=?";
+			String sql = "UPDATE turno SET tipoturno='E', estado=1, persona_idPersona="+idPersona+" WHERE idTurno=?";
 			stmt = conn.prepareStatement(sql);
-			stmt.setInt(1, id);
+			stmt.setInt(1, idTurno);
 			
 			stmt.executeUpdate();
 			
-			Conexion.close(rs);
+			//Conexion.close(rs);
 			Conexion.close(stmt);
 			Conexion.close(conn);
 			
@@ -44,30 +45,24 @@ public class AdministradorDao {
 		
 	}
 	
-	public Turno cargarEmergencia() {
+	// verifico existencia de la persona en la base de datos, para asi decidir si crearle o no cuenta
+	public boolean verificaPersona(String dni) {
 		Connection conn = null;
-		Statement stmt = null;
+		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		Turno turno = null;
-		Date dia = Date.valueOf(LocalDate.now());
-		int idTurno = 0;
+		boolean verifica = true;
 		
 		try {
 			conn = Conexion.getConnection();
-			String sql = "SELECT * FROM turno WHERE estado=false";
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(sql);
+			String sql = "SELECT * FROM persona WHERE dni=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, dni);
+			rs = stmt.executeQuery();
 			
-			
-			if (rs.next()) {
-				idTurno = rs.getInt("idTurno");
-				cargarTurno(idTurno);
-				int idnuevoTurno = idTurno;
-				Date fecha = rs.getDate("fecha");
-				Time hora = rs.getTime("hora");
-				turno = new Turno(idnuevoTurno, fecha, hora);
+			if (!rs.next()) {
+				verifica = false;
 			}
-
+			
 			Conexion.close(rs);
 			Conexion.close(stmt);
 			Conexion.close(conn);
@@ -77,6 +72,160 @@ public class AdministradorDao {
 			e.printStackTrace();
 		}
 		
+		return verifica;
+	}
+	
+	private int consultarPersona(String dni) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		int idPersona = -1;
+		
+		try {
+			conn = Conexion.getConnection();
+			String sql = "SELECT idPersona FROM persona WHERE dni=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, dni);
+			rs = stmt.executeQuery();
+			
+			while (rs.next()) {
+				idPersona = rs.getInt("idPersona");
+				
+			}
+			
+			Conexion.close(rs);
+			Conexion.close(stmt);
+			Conexion.close(conn);
+			
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return idPersona;
+	}
+	
+	// consulta si la persona tiene o no una ficha medica
+	private boolean verificarFichaMedica(int idPersona) {
+		boolean existe = false;
+		
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = Conexion.getConnection();
+			String sql = "SELECT fichamedica_idFichaMedica FROM persona WHERE idPersona=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, idPersona);
+			rs = stmt.executeQuery();
+			
+			while (rs.next()) {
+				if (rs.getInt("fichamedica_idFichaMedica") != Types.NULL) {
+					existe = true;
+				}
+			}
+			Conexion.close(rs);
+			Conexion.close(stmt);
+			Conexion.close(conn);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return existe;
+	}
+	
+	// agrega ficha medica a la persona
+	private void cargarFichaMedica(int idPersona, int idFichaMedica) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = Conexion.getConnection();
+			String sql = "UPDATE persona SET fichamedica_idFichaMedica="+idFichaMedica+" WHERE idPersona=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, idPersona);
+			stmt.executeUpdate();
+			
+			Conexion.close(stmt);
+			Conexion.close(conn);
+			
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	// si existe le mande un turue y sino le mando un false
+	public Turno cargarEmergencia(String dni) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		Turno turno = null;
+		Date dia = Date.valueOf(LocalDate.now());
+		Time hora = Time.valueOf(LocalTime.now());
+		int idTurno = 0;
+		int idPersona;
+		int idFicha = 0;
+		try {
+			conn = Conexion.getConnection();
+			if (verificaPersona(dni)) {
+				idPersona = consultarPersona(dni);
+				if (!verificarFichaMedica(idPersona)) {
+					String sql = "INSERT INTO fichamedica(fechaAlta) VALUES(?) ";
+					stmt = conn.prepareStatement(sql);
+					stmt.setDate(1, Date.valueOf(LocalDate.now()));
+					stmt.executeUpdate();
+					
+					sql = "SELECT idFichaMedica FROM fichaMedica ORDER BY idFichaMedica DESC LIMIT 1";
+					stmt = conn.prepareStatement(sql);
+					rs = stmt.executeQuery();
+					
+					if (rs.next()) {
+						idFicha = rs.getInt("idFichaMedica");
+						
+					}
+					
+					cargarFichaMedica(idPersona, idFicha);
+					
+				}
+				String sql = "SELECT * FROM turno WHERE fecha='"+ dia+ "' AND hora >'" +hora + "' AND estado=0 ORDER BY idTurno ASC LIMIT 1";
+				stmt = conn.prepareStatement(sql);
+				//stmt.setDate(1, dia);
+				//stmt.setTime(2, hora);
+				rs = stmt.executeQuery(sql);
+					
+				if (rs.next()) {
+					idTurno = rs.getInt("idTurno");
+					cargarTurno(idTurno, idPersona);
+					int idnuevoTurno = idTurno;
+					Date fecha = rs.getDate("fecha");
+					Time horaFecha = rs.getTime("hora");
+					turno = new Turno(idnuevoTurno, fecha, horaFecha);
+				}
+			}
+			
+			Conexion.close(rs);
+			Conexion.close(stmt);
+			Conexion.close(conn);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return turno;
 	}
 
