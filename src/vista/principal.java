@@ -8,6 +8,7 @@ import java.util.Scanner;
 import Modelo.AdministradorDao;
 import Modelo.Cuenta;
 import Modelo.CuentaDao;
+import Modelo.Informe;
 import Modelo.PacienteDao;
 import Modelo.Persona;
 import Modelo.Tratamiento;
@@ -47,6 +48,7 @@ public class principal {
 							break;
 						case 3:
 							// generar reporte
+							generarInforme(administradorDao);
 							break;
 						case 4:
 							generarTurnos(administradorDao);
@@ -108,6 +110,7 @@ public class principal {
 	public static int menuAdmin() {
 		int opc;
 		
+		System.out.println("");
 		System.out.println("1-Mostrar Fichas Medicas de Todos los Pacientes");
 		System.out.println("2-Cargar Paciente en Emergencias");
 		System.out.println("3-Generar Reporte Mensual");
@@ -122,6 +125,7 @@ public class principal {
 	public static int menuPaciente() {
 		int opc;
 		
+		System.out.println("");
 		System.out.println("1-Pedir Turno");
 		System.out.println("2-Dar de Baja un Turno");
 		System.out.println("3-Ver fichas de tratamientos");
@@ -310,5 +314,17 @@ public class principal {
 			System.out.println("Desea seguir ingresando? 1-SI/2-NO");
 			opc = teclado.nextInt();
 		} while (opc != 2);
+	}
+	
+	public static void generarInforme(AdministradorDao admin) {
+		int mes;
+		Informe informe;
+		
+		System.out.println("Ingrese mes del que quiere generar informe");
+		mes = teclado.nextInt();
+		
+		informe = admin.generarInforme(mes);
+		
+		informe.reportar();
 	}
 }

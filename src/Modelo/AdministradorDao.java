@@ -134,6 +134,48 @@ public class AdministradorDao {
 
 	}
 	// generar informe
-	
+	public Informe generarInforme(int mes) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		int emergencia = 0; 
+		int chico = 0; 
+		int mayor = 0;
+		Informe informe = null;
+		
+		try {
+			conn = Conexion.getConnection();
+			String sql = "SELECT * FROM turno WHERE DATE_FORMAT(fecha, '%m')=? AND estado=1";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, mes);
+			rs = stmt.executeQuery();
+			
+			while (rs.next()) {
+				String tipoTurno = rs.getString("tipoTurno");
+				
+				switch (tipoTurno) {
+				case "E":
+					emergencia++;
+					break;
+				case "M":
+					mayor++;
+					break;
+				case "C":
+					chico++;
+					break;
+				}
+			}
+			
+			informe = new Informe(emergencia, chico, mayor);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return informe;
+	}
 	// SELECT * FROM turno WHERE date_format(fecha, '%m')= 7
 }

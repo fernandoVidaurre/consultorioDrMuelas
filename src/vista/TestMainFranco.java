@@ -7,6 +7,7 @@ import java.util.List;
 import Modelo.AdministradorDao;
 import Modelo.Cuenta;
 import Modelo.CuentaDao;
+import Modelo.Informe;
 import Modelo.Paciente;
 import Modelo.PacienteDao;
 import Modelo.Persona;
@@ -50,6 +51,7 @@ public class TestMainFranco {
 		adminDao.generarTurnos(fecha);
 		*/
 		
+		/*
 		PacienteDao pacienteDao = new PacienteDao();
 		
 		List<Date> dias = pacienteDao.listarDias();
@@ -57,6 +59,14 @@ public class TestMainFranco {
 		for (int i=0; i < dias.size(); i++) {
 			System.out.println(dias.get(i));
 		}
+		*/
+		
+		AdministradorDao administradorDao = new AdministradorDao();
+		
+		Informe informe = administradorDao.generarInforme(7);
+		
+		// 9 chicos 8 mayores 5 emergencias
+		informe.reportar();
 		
 	}
 	
