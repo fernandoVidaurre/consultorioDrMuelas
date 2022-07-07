@@ -263,7 +263,7 @@ public class principal {
 					eliminado = pacienteDao.cancelarTurno(turnos.get(opcT - 1));
 				}
 				
-			} while (!eliminado);
+			} while (!eliminado && opcT != 0);
 		} else {
 			System.out.println("No tiene turnos pendientes");
 		}

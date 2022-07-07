@@ -15,8 +15,9 @@ import javax.lang.model.type.NullType;
 public class PacienteDao {
 	
 	// aqui se escribiran los metodos que acceden a la bd por parte de paciente
-	//dar de baja turno
 	
+	// metodo que muestre fechas no turnos
+	// SELECT DISTINCT fecha FROM turno WHERE fecha >' 2022-07-6' LIMIT 1
 	// metodo para listar turnos
 	public List<Turno> consultarTurno(Date fechaActual) {
 		Connection conn = null;
