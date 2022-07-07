@@ -44,10 +44,19 @@ public class TestMainFranco {
 			System.out.println(tratamientos.get(i).getNombreTratamiento());
 		}
 		*/
-		
+		/*
 		AdministradorDao adminDao = new AdministradorDao();
 		Date fecha = Date.valueOf(LocalDate.of(2022, 7, 9));
 		adminDao.generarTurnos(fecha);
+		*/
+		
+		PacienteDao pacienteDao = new PacienteDao();
+		
+		List<Date> dias = pacienteDao.listarDias();
+		
+		for (int i=0; i < dias.size(); i++) {
+			System.out.println(dias.get(i));
+		}
 		
 	}
 	

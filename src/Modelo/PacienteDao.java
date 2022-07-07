@@ -17,7 +17,32 @@ public class PacienteDao {
 	// aqui se escribiran los metodos que acceden a la bd por parte de paciente
 	
 	// metodo que muestre fechas no turnos
-	// SELECT DISTINCT fecha FROM turno WHERE fecha >' 2022-07-6' LIMIT 1
+	public List<Date> listarDias() {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		Date dia;
+		List<Date> dias = new ArrayList<>();
+		try {
+			conn = Conexion.getConnection();
+			String sql = "SELECT DISTINCT fecha FROM turno WHERE fecha > ? LIMIT 5";
+			stmt = conn.prepareStatement(sql);
+			stmt.setDate(1, Date.valueOf(LocalDate.now()));
+			rs = stmt.executeQuery();
+			
+			while (rs.next()) {
+				dias.add(rs.getDate("fecha"));
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return dias;
+	}
 	// metodo para listar turnos
 	public List<Turno> consultarTurno(Date fechaActual) {
 		Connection conn = null;
@@ -215,10 +240,10 @@ public class PacienteDao {
 		List<Turno> turnos = new ArrayList<>();
 		try {
 			conn = Conexion.getConnection();
-			String sql = "SELECT * FROM turno WHERE fecha=? AND persona_idPersona=? order by hora asc";
+			String sql = "SELECT * FROM turno WHERE persona_idPersona=? order by hora asc";
 			stmt = conn.prepareStatement(sql);
-			stmt.setObject (1, fechaActual);
-			stmt.setInt(2,idPersona );
+			//stmt.setObject (1, fechaActual);
+			stmt.setInt(1,idPersona );
 			rs = stmt.executeQuery();
 			
 			while (rs.next()) {
