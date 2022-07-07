@@ -346,7 +346,7 @@ public class AdministradorDao {
 		
 		try {
 			conn = Conexion.getConnection();
-			String sql = "SELECT * FROM turno WHERE DATE_FORMAT(fecha, '%m')=? AND estado=1";
+			String sql = "SELECT * FROM turno WHERE DATE_FORMAT(fecha, '%m')=? AND estado=1 AND tipoTurno <> 'NULL'";
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, mes);
 			rs = stmt.executeQuery();
