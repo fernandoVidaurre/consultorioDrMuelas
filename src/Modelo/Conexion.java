@@ -16,7 +16,7 @@ public class Conexion {
 	static final String DB_URL = "jdbc:mysql://localhost:3306/drmuelasbd";
 	
 	static final String USER = "root";
-	static final String PASS = "root";
+	static final String PASS = "admin";
 	
 	
 	public static Connection getConnection() throws ClassNotFoundException, SQLException {

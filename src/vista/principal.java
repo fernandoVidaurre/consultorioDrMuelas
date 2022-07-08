@@ -81,6 +81,7 @@ public class principal {
 						case 1:
 							// Pedir turno
 							pedirTurno(id, pacienteDao);
+							// usuario no puede pedir turno para el mismo dia, en ese caso debera presentarse al consultorio como emergencia
 							break;
 						case 2:
 							// dar de baja un turno
@@ -248,6 +249,7 @@ public class principal {
 							System.out.println(j + "-" + "Hora: " + listaTurnos.get(i).getHora() + "- No Disponible");
 						}
 					}
+
 					System.out.println("0-Salir");
 					// usuario debe elegir un turno
 					opcT = teclado.nextInt();
