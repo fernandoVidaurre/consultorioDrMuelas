@@ -220,6 +220,12 @@ public class AdministradorDao {
 	}
 	
 	// si existe le mande un turue y sino le mando un false
+	/*
+	 * el metodo cargarEmergencia, solo permite la eleccion del primer turno
+	 * que este disponible en el dia, y que la hora a la que lo esta pidiendo 
+	 * este entre las horas 8 a 12 y 14 a 18 horas, si no hay turnos devolvera al menu
+	 * y si hay algun turno devolvera la hora a la que fue asignado
+	 */
 	public Turno cargarEmergencia(String dni) {
 		Connection conn = null;
 		PreparedStatement stmt = null;

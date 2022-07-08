@@ -51,6 +51,12 @@ public class principal {
 						case 2:
 							// cargar paciente a emerfencias
 							cargarEmergencia(administradorDao);
+							/*
+							 * el metodo cargarEmergencia, solo permite la eleccion del primer turno
+							 * que este disponible en el dia, y que la hora a la que lo esta pidiendo 
+							 * este entre las horas 8 a 12 y 14 a 18 horas, si no hay turnos devolvera al menu
+							 * y si hay algun turno devolver la hora a la que fue asignado
+							 */
 							break;
 						case 3:
 							// generar reporte
@@ -416,6 +422,7 @@ public class principal {
 		int i,j,k;
 		do {
 			j = 0;
+			System.out.println("Seleccione una opcion");
 			for (i=0; i < personas.size(); i++) {
 				j++;
 				System.out.println(j + "- Nombre:" + personas.get(i).getNombre() + " " + personas.get(i).getApellido() + " DNI: " + personas.get(i).getDni());
